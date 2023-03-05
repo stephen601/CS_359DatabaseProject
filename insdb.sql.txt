@@ -1,0 +1,11 @@
+INSERT INTO Model (modelNo, width, height, depth, screenSize) VALUES (528764, 12, 25, 36, 5, 200) (528664, 12, 25, 36, 5, 240) (554923, 8, 13, 24, 3, 1420) (571986, 20, 35, 48, 2, 1980) (593486, 14, 27, 20, 4, 1280);
+
+INSERT INTO Salesman (empId, name, gender) VALUES (117542, "Beth", "F") (154326, "Robbie", "M") (173495, "Mary", "F") (178359, "Lilth", "F") (189562, "Tom", "M");
+
+INSERT INTO Site (siteCode, type, address, phone) VALUES (258954, restruant, 1468 S Ave K, 505-849-2566) (257849, dorm, 1527 S Ave O, 505-784-4545) (225489, lobby, 1371 S Ave M, 505-478-5852) (234711, restruant, 1358 S Ave V, 575-488-7452) (248915, lobby, 1784 S Ave M, 505-487-5154);
+
+INSERT INTO Specializes (empId, modelNo) VALUES (134678, 528764) (145787, 554923) (112455, 593486) (134685, 528664) (195239, 571986);
+
+INSERT INTO TechnicalSupport (empId, name, gender) VALUES (112455, "Paul", "M") (134678, "Joan", "F") (134685, "Jannet", "F") (145787, "Billy", "M") (195239, "Billy", "M");
+
+INSERT INTO Video (videoCode, videoLength) VALUES (356187, 240) (355846, 60) (336482, 270) (382550, 90) (344759, 30);
