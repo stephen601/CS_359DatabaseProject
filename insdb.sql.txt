@@ -16,6 +16,8 @@ INSERT INTO DigitalDisplay (serialNo, schedulerSystem, modelNo) VALUES (10001, "
 
 INSERT INTO Locates (serialNo, siteCode) VALUES (10001, 258954), (10002, 257849), (10003, 225489), (10004, 234711), (10005, 248915);
 
+INSERT INTO Purchases (clientId, empId, packageId, commissionRate) VALUES (1, 117542, 1, 140), (2, 154326, 2, 182), (3, 173495, 3, 170), (4, 178359, 4, 360), (5, 189562, 5, 90)
+
 /* Ryan Input */
 
 INSERT INTO Model (modelNo, width, height, depth, screenSize) VALUES (528764, 12, 25, 36, 5, 200), (528664, 12, 25, 36, 5, 240), (554923, 8, 13, 24, 3, 1420), (571986, 20, 35, 48, 2, 1980), (593486, 14, 27, 20, 4, 1280);
