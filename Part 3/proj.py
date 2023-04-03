@@ -139,8 +139,8 @@ def query6(conn):
         rows = cursor.fetchall()
         for row in rows:
             print(row[0])
-    except Error as e:
-       print(e)
+    except IndexError as e:
+       print("You need to supply a parameter.")
 def query7(conn):
     try:
         cursor = conn.cursor()
