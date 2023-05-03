@@ -1,13 +1,14 @@
 from flask import Flask, make_response, jsonify, request, render_template
 import json
 import sqlite3
+import os
 
 app = Flask(__name__)
 
-def db_connection():
+def db_connection(database):
     conn = None
     try:
-        conn = sqlite3.connect('ABC.sqlite')
+        conn = sqlite3.connect(database)
     except sqlite3.error as e:
         print(e)
     return conn
@@ -15,6 +16,19 @@ def db_connection():
 @app.route('/')
 def index():
     return render_template("index.html")
+
+@app.route('/api/database', methods=["POST"])
+def get_database():
+    new_database = request.form["database"]
+    if os.path.isfile(new_database):
+        conn = db_connection(new_database)
+        if conn:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error"})
+    else:
+        return jsonify({"status": "error", "message": "Database file not found."})
+
 
 @app.route('/api/getTable', methods=["POST"])
 def get_table_data():

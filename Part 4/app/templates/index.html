@@ -1,8 +1,8 @@
 {% extends 'layout.html' %}
 {% block content %}
-<form action="/api/getTable" method="POST">
-    <label for="table">Table Name</label>
-    <input name="table" type="text">
+<form action="/api/database" method="POST">
+    <label for="database">Please input database name: </label>
+    <input name="database" type="text">
     <input type="submit" value="submit">
 </form>
 {% endblock %}
