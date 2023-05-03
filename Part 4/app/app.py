@@ -17,13 +17,17 @@ def db_connection(database):
 def index():
     return render_template("index.html")
 
+@app.route('/logout', methods=['POST'])
+def logout():
+    return redirect(url_for('index'))
+
 @app.route('/api/database', methods=["POST"])
 def get_database():
     new_database = request.form["database"]
     if os.path.isfile(new_database):
         conn = db_connection(new_database)
         if conn:
-            return redirect(url_for('query'))
+            return redirect(url_for('query', new_database=new_database))
         else:
             return jsonify({"status": "error"})
     else:
@@ -31,7 +35,8 @@ def get_database():
 
 @app.route("/query")
 def query():
-    return render_template("query.html")
+    new_database = request.args.get('new_database')
+    return render_template("query.html", new_database=new_database)
 
 @app.route('/api/getTable', methods=["POST"])
 def get_table_data():

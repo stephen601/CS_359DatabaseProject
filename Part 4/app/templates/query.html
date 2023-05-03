@@ -1,1 +1,7 @@
-test
+{% extends 'layout.html' %}
+{% block content %}
+<h2>{{new_database}}</h2>
+<form action="{{ url_for('logout') }}" method="POST">
+    <input type="submit" value="Logout">
+</form>
+{% endblock %}
