@@ -1,9 +1,10 @@
-from flask import Flask, make_response, jsonify, request, render_template, redirect, url_for
+from flask import Flask, make_response, jsonify, request, render_template, redirect, url_for, session
 import json
 import sqlite3
 import os
 
 app = Flask(__name__)
+app.secret_key = "secret_key"
 
 def db_connection(database):
     conn = None
@@ -19,12 +20,13 @@ def index():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    database = request.form['database']
+    database = session.get('database')
     conn = db_connection(database)
     try:
         # Perform any necessary operations on the database
         # ...
         conn.close()
+        session.pop('database', None)
         message = "Database connection closed successfully."
         return render_template("index.html", message=message)
     except:
@@ -32,15 +34,14 @@ def logout():
         # ...
         return render_template("error.html")
 
-
-
 @app.route('/api/database', methods=["POST"])
 def get_database():
     new_database = request.form["database"]
     if os.path.isfile(new_database):
         conn = db_connection(new_database)
         if conn:
-            return redirect(url_for('query', new_database=new_database))
+            session['database'] = new_database
+            return redirect(url_for('query'))
         else:
             return jsonify({"status": "error"})
     else:
@@ -48,32 +49,30 @@ def get_database():
 
 @app.route("/query")
 def query():
-    new_database = request.args.get('new_database')
-    return render_template("query.html", new_database=new_database)
+    database = session.get('database')
+    return render_template("query.html", database=database)
 
-@app.route('/api/getTable', methods=["POST"])
+@app.route('/api/display', methods=["GET"])
 def get_table_data():
-        conn = db_connection()
-        cursor = conn.cursor()
+    database = session.get('database')
+    conn = db_connection(database)
+    cursor = conn.cursor()
 
-        table_name = request.form["table"]
+    # query database schema to get column names for selected table
+    cursor.execute(f"PRAGMA table_info(DigitalDisplay)")
+    columns = [row[1] for row in cursor.fetchall()]
 
-        # query database schema to get column names for selected table
-        cursor.execute(f"PRAGMA table_info({table_name})")
-        columns = [row[1] for row in cursor.fetchall()]
+    # dynamically construct SQL statement with 
+    sql = f"SELECT * FROM DigitalDisplay"
+    cursor.execute(sql)
 
-        # dynamically construct SQL statement with selected columns and table name
-        column_names = ", ".join(columns)
-        sql = f"SELECT {column_names} FROM {table_name}"
-        cursor.execute(sql)
+    # process cursor data into custom objects or dictionaries
+    data = []
+    for row in cursor.fetchall():
+        data.append(dict(zip(columns, row)))
 
-        # process cursor data into custom objects or dictionaries
-        data = []
-        for row in cursor.fetchall():
-            data.append(dict(zip(columns, row)))
+    return jsonify(data)
 
-        return jsonify(data)
-    
 @app.route('/display_all')
 def display_all():
     # Display all the digital displays
