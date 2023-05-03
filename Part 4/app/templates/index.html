@@ -6,4 +6,8 @@
     <input name="database" type="text">
     <input type="submit" value="Connect">
 </form>
+{% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endif %}
+
 {% endblock %}

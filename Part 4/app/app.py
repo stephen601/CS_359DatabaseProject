@@ -19,7 +19,20 @@ def index():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    return redirect(url_for('index'))
+    database = request.form['database']
+    conn = db_connection(database)
+    try:
+        # Perform any necessary operations on the database
+        # ...
+        conn.close()
+        message = "Database connection closed successfully."
+        return render_template("index.html", message=message)
+    except:
+        # Handle any errors that may occur
+        # ...
+        return render_template("error.html")
+
+
 
 @app.route('/api/database', methods=["POST"])
 def get_database():
@@ -60,6 +73,45 @@ def get_table_data():
             data.append(dict(zip(columns, row)))
 
         return jsonify(data)
+    
+@app.route('/display_all')
+def display_all():
+    # Display all the digital displays
+    return render_template("display_all.html")
+
+@app.route('/search')
+def search():
+    # Search digital displays given a scheduler system
+    return render_template("search.html")
+
+@app.route('/insert')
+def insert():
+    # Insert a new digital display
+    return render_template("insert.html")
+
+@app.route('/delete')
+def delete():
+    # Delete a digital display
+    return render_template("delete.html")
+
+@app.route('/update')
+def update():
+    # Update a digital display
+    return render_template("update.html")
+
+@app.route('/process_option', methods=['POST'])
+def process_option():
+    option = request.form['option']
+    if option == 'display_all':
+        return redirect(url_for('display_all'))
+    elif option == 'search':
+        return redirect(url_for('search'))
+    elif option == 'insert':
+        return redirect(url_for('insert'))
+    elif option == 'delete':
+        return redirect(url_for('delete'))
+    elif option == 'update':
+        return redirect(url_for('update'))
 
 if __name__ == '__main__':
     app.run(debug=True)
