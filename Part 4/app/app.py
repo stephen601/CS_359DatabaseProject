@@ -1,4 +1,4 @@
-from flask import Flask, make_response, jsonify, request, render_template
+from flask import Flask, make_response, jsonify, request, render_template, redirect, url_for
 import json
 import sqlite3
 import os
@@ -23,12 +23,15 @@ def get_database():
     if os.path.isfile(new_database):
         conn = db_connection(new_database)
         if conn:
-            return jsonify({"status": "success"})
+            return redirect(url_for('query'))
         else:
             return jsonify({"status": "error"})
     else:
         return jsonify({"status": "error", "message": "Database file not found."})
 
+@app.route("/query")
+def query():
+    return render_template("query.html")
 
 @app.route('/api/getTable', methods=["POST"])
 def get_table_data():
