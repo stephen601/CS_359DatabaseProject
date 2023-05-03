@@ -1,1 +1,8 @@
 {% extends 'layout.html' %}
+{% block content %}
+<form action="/api/getTable" method="POST">
+    <label for="table">Table Name</label>
+    <input name="table" type="text">
+    <input type="submit" value="submit">
+</form>
+{% endblock %}
