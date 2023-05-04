@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model Details</title>
+</head>
+<body>
+    <h1>Model Details</h1>
+    <table>
+        <tr>
+            <th>Serial Number</th>
+            <th>Scheduler System</th>
+            <th>Model Number</th>
+            <th>Width</th>
+            <th>Height</th>
+            <th>Weight</th>
+			<th>Depth</th>
+			<th>Screen Size</th>
+        </tr>
+        <tr>
+            {% for value in data %}
+            <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>

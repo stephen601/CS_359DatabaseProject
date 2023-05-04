@@ -78,6 +78,28 @@ def display_all():
     # Display all the digital displays
     return render_template("display_all.html")
 
+@app.route('/details')
+def details():
+    model_no = request.args.get('modelNo')
+    conn = db_connection(session.get('database'))
+    cursor = conn.cursor()
+
+    # Execute the SQL query with the given modelNo value
+    cursor.execute("""
+        SELECT DigitalDisplay.*, Model.width, Model.height, Model.weight, Model.depth, Model.screenSize
+        FROM DigitalDisplay
+        JOIN Model ON DigitalDisplay.modelNo = Model.modelNo
+        WHERE DigitalDisplay.modelNo = ?
+    """, (model_no,))
+    data = cursor.fetchone()
+
+    # Close the database connection
+    conn.close()
+
+    # Render the detail template with the data
+    return render_template('detail.html', data=data)
+
+
 @app.route('/search')
 def search():
     # Search digital displays given a scheduler system
