@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Display Data</title>
-</head>
-<body>
+{% extends 'layout.html' %}
+{% block content %}
 	<script>
 		function displayData() {
 			var new_database = "{{ database }}";
@@ -27,7 +23,7 @@
 									table += "<td>" + data[i][Object.keys(data[i])[j]] + "</td>";
 								}
 								// Add a new column for links in each row
-								table += "<td><a href='/details?modelNo=" + data[i]['modelNo'] + "'>Details</a></td>";
+								table += "<td><a href='/details?modelNo=" + data[i]['modelNo'] + "'>Model Details</a></td>";
 								table += "</tr>";
 							}
 							
@@ -45,5 +41,4 @@
 	
 	<div id="data"></div>
 
-</body>
-</html>
+{% endblock %}
