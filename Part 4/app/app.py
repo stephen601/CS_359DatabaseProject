@@ -100,10 +100,54 @@ def details():
     return render_template('detail.html', data=data)
 
 
-@app.route('/search')
+@app.route('/search', methods=['GET', 'POST'])
 def search():
-    # Search digital displays given a scheduler system
-    return render_template("search.html")
+    if request.method == 'POST':
+        scheduler_system = request.form.get('schedulerSystem')
+        print(scheduler_system)
+        conn = db_connection(session.get('database'))
+        cursor = conn.cursor()
+
+        # Execute the SQL query to search for entries with the selected scheduler system
+        cursor.execute("""
+            SELECT * FROM DigitalDisplay
+            WHERE schedulerSystem = ?
+        """, (scheduler_system,))
+        data = cursor.fetchall()
+
+        # Close the database connection
+        conn.close()
+
+        # Render the search results template with the data
+        return render_template('search.html', data=data)
+
+    else:
+        # Render the search template with the scheduler system dropdown menu
+        cursor = db_connection(session.get('database')).cursor()
+        cursor.execute("SELECT DISTINCT schedulerSystem FROM DigitalDisplay")
+        systems = [row[0] for row in cursor.fetchall()]
+        return render_template("search.html", systems=systems)
+
+    
+@app.route('/api/display', methods=['POST'])
+def get_display_data():
+    scheduler_system = request.form.get('schedulerSystem')
+    database = session.get('database')
+    conn = db_connection(database)
+    cursor = conn.cursor()
+
+    # query database to get data for selected scheduler system
+    sql = f"SELECT * FROM DigitalDisplay WHERE schedulerSystem = '{scheduler_system}'"
+    cursor.execute(sql)
+
+    # process cursor data into custom objects or dictionaries
+    data = []
+    for row in cursor.fetchall():
+        data.append(dict(zip(['modelNo', 'serialNo', 'schedulerSystem'], row)))
+
+    return jsonify(data)
+
+
 
 @app.route('/insert')
 def insert():
