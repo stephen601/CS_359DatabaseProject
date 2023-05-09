@@ -2,8 +2,12 @@
 {% block content %}
 <p>Welcome to Project Database, please follow the directions listed below:</p>
 <form action="/api/database" method="POST">
-    <label for="database">Please input database name: </label>
-    <input name="database" type="text">
+    <label for="database">Please select a database: </label>
+    <select name="database">
+        {% for file in os.listdir(os.getcwd()) if file.endswith('.sqlite') %}
+            <option value="{{ file }}">{{ file }}</option>
+        {% endfor %}
+    </select>
     <input type="submit" value="Connect">
 </form>
 {% if message %}

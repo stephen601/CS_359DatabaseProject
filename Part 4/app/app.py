@@ -5,6 +5,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = "secret_key"
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 def db_connection(database):
     conn = None
@@ -16,7 +17,7 @@ def db_connection(database):
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("index.html", os=os)
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -62,7 +63,7 @@ def get_table_data():
     cursor.execute(f"PRAGMA table_info(DigitalDisplay)")
     columns = [row[1] for row in cursor.fetchall()]
 
-    # dynamically construct SQL statement with 
+    # dynamically construct SQL statement with
     sql = f"SELECT * FROM DigitalDisplay"
     cursor.execute(sql)
 
@@ -128,7 +129,7 @@ def search():
         systems = [row[0] for row in cursor.fetchall()]
         return render_template("search.html", systems=systems)
 
-    
+
 @app.route('/api/display', methods=['POST'])
 def get_display_data():
     scheduler_system = request.form.get('schedulerSystem')
