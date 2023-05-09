@@ -1,13 +1,21 @@
 {% extends 'layout.html' %}
 {% block content %}
-<form method="post" id="search-form">
-  <select name="schedulerSystem" id="scheduler-system-select">
-    {% for system in systems %}
-      <option value="{{ system }}">{{ system }}</option>
-    {% endfor %}
-  </select>
-  <button type="submit" id="search-btn">Search</button>
-</form>
+<div style="text-align:center;">
+  <form method="post" id="search-form">
+    <select name="schedulerSystem" id="scheduler-system-select">
+      {% for system in systems %}
+        <option value="{{ system }}">{{ system }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" id="search-btn" class="search-btn">Search</button>
+  </form>
+
+  <form action="{{ url_for('logout') }}" method="POST" style="display:inline-block;">
+    <input type="hidden" name="database" value="{{ database }}">
+    <button type="submit" class="logout-btn">Logout</button>
+  </form>
+  
+</div>
 <div id="search-results"></div>
 
 <script>

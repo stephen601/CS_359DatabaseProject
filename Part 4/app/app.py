@@ -15,25 +15,44 @@ def db_connection(database):
         print(e)
     return conn
 
-@app.route('/')
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html", os=os)
+    if request.method == 'POST':
+        session['database'] = request.form['database']
+        conn = db_connection(session['database'])
+        try:
+            # Perform any necessary operations on the database
+            # ...
+            conn.close()
+            session['message'] = "Database connection established successfully."
+            return redirect(url_for('index',os=os))
+        except:
+            # Handle any errors that may occur
+            # ...
+            return render_template("error.html")
+    else:
+        message = session.pop('message', None)
+        return render_template("index.html", message=message, os=os)
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    database = session.get('database')
-    conn = db_connection(database)
+    session['database'] = request.form['database']
+    conn = db_connection(session['database'])
     try:
         # Perform any necessary operations on the database
         # ...
         conn.close()
         session.pop('database', None)
-        message = "Database connection closed successfully."
-        return render_template("index.html", message=message)
+        session['message'] = "Database connection closed successfully."
+        return redirect(url_for('index'))
     except:
         # Handle any errors that may occur
         # ...
         return render_template("error.html")
+
+
 
 @app.route('/api/database', methods=["POST"])
 def get_database():

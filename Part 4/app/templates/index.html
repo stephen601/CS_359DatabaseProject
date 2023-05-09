@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block content %}
-<p>Welcome to Project Database, please follow the directions listed below:</p>
+<h2>Welcome to Project Database, please follow the directions listed below:</h2>
 <form action="/api/database" method="POST">
     <label for="database">Please select a database: </label>
     <select name="database">
@@ -8,7 +8,9 @@
             <option value="{{ file }}">{{ file }}</option>
         {% endfor %}
     </select>
-    <input type="submit" value="Connect">
+    <div style="text-align: center;">
+        <input type="submit" value="Connect">
+    </div>
 </form>
 {% if message %}
     <div class="alert alert-success">{{ message }}</div>

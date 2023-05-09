@@ -1,21 +1,24 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h2>{{new_database}}</h2>
+<h2>{{database}}</h2>
 
-<form action="{{ url_for('process_option') }}" method="POST">
-    <select name="option">
-        <option value="display_all">Display all the digital displays</option>
-        <option value="search">Search digital displays given a scheduler system</option>
-        <option value="insert">Insert a new digital display</option>
-        <option value="delete">Delete a digital display</option>
-        <option value="update">Update a digital display</option>
-    </select>
-    <input type="submit" value="Submit">
-</form>
+<div style="text-align:center;">
+    <form action="{{ url_for('process_option') }}" method="POST" style="display:inline-block;">
+        <label for="option">Please select a query: </label>
+        <select name="option">
+            <option value="display_all">Display all the digital displays</option>
+            <option value="search">Search digital displays given a scheduler system</option>
+            <option value="insert">Insert a new digital display</option>
+            <option value="delete">Delete a digital display</option>
+            <option value="update">Update a digital display</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
 
-<form action="{{ url_for('logout') }}" method="POST">
-    <input type="hidden" name="database" value="{{ new_database }}">
-    <input type="submit" value="Logout">
-</form>
+    <form action="{{ url_for('logout') }}" method="POST" style="display:inline-block;">
+        <input type="hidden" name="database" value="{{ database }}">
+        <input type="submit" value="Logout">
+    </form>
+</div>
 
 {% endblock %}
