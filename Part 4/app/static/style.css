@@ -157,4 +157,7 @@ button.search-btn {
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
+.table-wrapper {
+  overflow-x: auto;
+}
 
