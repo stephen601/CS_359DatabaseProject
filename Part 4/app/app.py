@@ -174,6 +174,69 @@ def insert():
     # Insert a new digital display
     return render_template("insert.html")
 
+@app.route('/api/insertNewDisplay', methods=['POST'])
+def insertNewDisplay():
+
+    model_number = request.form['modelNumber']
+    scheduler_system = request.form['schedulerSystem']
+    serial_number = request.form['serialNumber']
+    
+    print(model_number)
+    print(serial_number)
+    print(scheduler_system)
+
+    database = session.get('database')
+    conn = db_connection(database)
+    cursor = conn.cursor()
+
+    sql = f"INSERT INTO DigitalDisplay (serialNo, schedulerSystem, modelNo) VALUES ({serial_number}, '{scheduler_system}', {model_number});"
+    sql2 = f"INSERT INTO Model (modelNo, width, height, weight, depth, screenSize) VALUES ({model_number}, 10, 8, 20, 2, 12);"
+    
+    cursor.execute(sql)
+    cursor.execute(sql2)
+    conn.commit()
+
+    return render_template("display_all.html")
+
+@app.route('/api/digital_delete', methods=['POST'])
+def digital_delete():
+
+    model_number = request.form['modelNumber']
+
+    database = session.get('database')
+    conn = db_connection(database)
+    cursor = conn.cursor()
+
+    sql = f"DELETE FROM DigitalDisplay WHERE modelNo={model_number};"
+    
+    print(sql)
+    cursor.execute(sql)
+    conn.commit()
+
+    return render_template("display_all.html")
+
+@app.route('/api/digital_update', methods=['POST'])
+def digital_update():
+
+    model_number = request.form['modelNumber']
+    width = request.form['width']
+    height = request.form['height']
+    weight = request.form['weight']
+    depth = request.form['depth']
+    screenSize = request.form['screenSize']
+
+    database = session.get('database')
+    conn = db_connection(database)
+    cursor = conn.cursor()
+
+    sql = f"UPDATE Model SET width={width}, height={height}, weight={weight}, depth={depth}, screenSize={screenSize} WHERE modelNo={model_number};"
+    
+    print(sql)
+    cursor.execute(sql)
+    conn.commit()
+
+    return render_template("display_all.html")
+
 @app.route('/delete')
 def delete():
     # Delete a digital display
