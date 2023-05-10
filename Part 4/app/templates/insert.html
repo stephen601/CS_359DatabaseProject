@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <!-- <script src="{{url_for('static', filename='insert.js')}}"></script> -->
+    <div id="inputFields" style="display: block;">
+        <form action="/api/insertNewDisplay" method="POST">
+            <label for="serialNumber" style="text-align: left;">Serial Number:</label>
+            <input type="text" id="serialNumber" name="serialNumber">
+
+            <label for="schedulerSystem" style="text-align: left;">Scheduler System:</label>
+            <input type="text" id="schedulerSystem" name="schedulerSystem">
+
+            <label for="modelNumber" style="text-align: left;">Model Number:</label>
+            <input type="text" id="modelNumber" name="modelNumber">
+
+            <!-- <button id="submitButton">Submit</button> -->
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+	<div id="data"></div>
+	
+	<div style="text-align:center; background-color: transparent !important;">
+		<form action="{{ url_for('logout') }}" method="POST" style="display:inline-block; background-color: transparent;box-shadow: none;">
+			<input type="hidden" name="database" value="{{ database }}">
+			<button type="submit" class="logout-btn">Logout</button>
+		  </form>
+	</div>
+	<a href="/query">Back to Query Page</a>
+    
+	
+{% endblock %}

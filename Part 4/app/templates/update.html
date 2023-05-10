@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <!-- <script src="{{url_for('static', filename='insert.js')}}"></script> -->
+    <div id="inputFields" style="display: block;">
+        <form action="/api/digital_update" method="POST">
+            <label for="modelNumber" style="text-align: left;">Model Number to Update:</label>
+            <input type="text" id="modelNumber" name="modelNumber">
+
+            <label for="width" style="text-align: left;">New Width:</label>
+            <input type="text" id="width" name="width">
+
+            <label for="height" style="text-align: left;">New Height:</label>
+            <input type="text" id="height" name="height">
+
+            <label for="weight" style="text-align: left;">New Weight:</label>
+            <input type="text" id="weight" name="weight">
+
+            <label for="depth" style="text-align: left;">New Depth:</label>
+            <input type="text" id="depth" name="depth">
+
+            <label for="screenSize" style="text-align: left;">Screen Size:</label>
+            <input type="text" id="screenSize" name="screenSize">
+
+            <!-- <button id="submitButton">Submit</button> -->
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+	<div id="data"></div>
+	
+	<div style="text-align:center; background-color: transparent !important;">
+		<form action="{{ url_for('logout') }}" method="POST" style="display:inline-block; background-color: transparent;box-shadow: none;">
+			<input type="hidden" name="database" value="{{ database }}">
+			<button type="submit" class="logout-btn">Logout</button>
+		  </form>
+	</div>
+	<a href="/query">Back to Query Page</a>
+    
+	
+{% endblock %}
